@@ -119,6 +119,19 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
+      //[[0, 1, 0], 
+      // [0, 0, 1], 
+      // [0, 1, 0]]
+      //i: column index
+      //o: boolean - true if there is a conflict
+      //explanation: pass in a column index, iterate over each array to find that index, see if more than 1 of the arrays has a 1. if so, our output is true, otherwise false
+
+      //for loop to go over each row, find the index we're looking for, and store the value of the index in a variable (counter or currentIndex)
+      //compare that variable to the next index value
+      //if the counter and variable are equal to 1, return true
+
+
+
       var size = this.get('n');
       var count = 0;
 
@@ -150,12 +163,63 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+
+      //i: majorDiagonalColumnIndexAtFirstRow
+      //o: boolean
+      //c: it's a square grid
+      //e: n/a
+      //justification: make sure there's no two queens on a diagonal
+      //explanation: we take in the majorDiagonalColumnIndexAtFirstRow. find the value at column index + 1 and row index + 1;
+        //if multiple of those values === 1, there's a conflict (true), else false 
+        
+      //Pseudo-code
+        //create a variable to store board size
+        //create a variable for our counter = 0
+        //create a variable for currentColIndex
+        //'' for currentRowIndex
+        //while currentColIndex < size, 
+          // if counter is equal to 1 and current position value is equal to 1, return true
+          // else --  
+            // counter += board[row][col] 
+            // currentColIndex += 1;
+            // currentRowIndex += 1;
+        var size = this.get('n');
+        var counter = 0;
+        var currentColIndex = majorDiagonalColumnIndexAtFirstRow;
+        var currentRowIndex = 0;
+        var currentValue = this.get(currentRowIndex)[currentColIndex]
+        
+        while(currentColIndex < size) {
+          if(counter === 1 && currentValue === 1) {
+            return true;
+          } else {
+            counter += currentValue;
+            currentColIndex += 1;
+            currentRowIndex += 1;
+          }
+        }
+        return false;      
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var size = this.get('n');
+      
+      for (var i = 0; i < size; i++) {
+        if(hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+
+      return false;
+      //i: none - create an internal input of the board
+      //o: boolean
+      //c: it's a square grid
+      //e: n/a
+      //justification: make sure there's no two queens on a diagonal
+      //explanation: we take in the 0 index of the first row. We iterate over over the array 
+        //run majorDiagnalConflicts function
+        //if any of the them return true, then true
     },
 
 
@@ -165,12 +229,59 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      //i: first column index
+      //o: boolean - true if conflict
+      //c: square grid
+      //e: n/a
+
+      //justification: make sure there's no two queens on a minor diagonal
+      //explanation: we take in the majorDiagonalColumnIndexAtFirstRow. find the value at column index - 1 and row index + 1;
+        //if multiple of those values === 1, there's a conflict (true), else false
+
+      // create size var
+      // create counter var
+      // create current position value var
+      // create currentColIndex var
+      // create currentRowIndex var
+
+      // while currentRowIndex < size 
+        //if counter and current position value both equals 1
+          // return true
+        // else 
+          // counter += current position value
+          // currentColIndex - 1;
+          // currentRowIndex + 1;
+
+      var size = this.get('n');
+      var counter = 0;
+      var currentColIndex = minorDiagonalColumnIndexAtFirstRow;
+      var currentRowIndex = 0;
+      var currentPositionValue = this.get(currentRowIndex)[currentColIndex];
+
+      while (currentRowIndex < size) {
+        if (counter === 1 && currentPositionValue === 1) {
+          return true;
+        } else {
+          counter += currentPositionValue;
+          currentColIndex -= 1;
+          currentRowIndex += 1;
+        }
+      }
+
+      return false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var size = this.get('n');
+      
+      for (var i = 0; i < size; i++) {
+        if(hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+
+      return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
