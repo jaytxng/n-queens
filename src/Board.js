@@ -183,13 +183,23 @@
             // counter += board[row][col] 
             // currentColIndex += 1;
             // currentRowIndex += 1;
+        
         var size = this.get('n');
         var counter = 0;
-        var currentColIndex = majorDiagonalColumnIndexAtFirstRow;
-        var currentRowIndex = 0;
-        var currentValue = this.get(currentRowIndex)[currentColIndex]
+        var currentColIndex;
+        var currentRowIndex;
+        var currentValue;
         
-        while(currentColIndex < size) {
+        if(majorDiagonalColumnIndexAtFirstRow < 0) {
+          currentRowIndex = majorDiagonalColumnIndexAtFirstRow * -1;
+          currentColIndex = 0;
+        } else {
+          currentColIndex = majorDiagonalColumnIndexAtFirstRow;
+          currentRowIndex = 0;
+        }
+
+        while(currentColIndex < size && currentRowIndex < size) {
+          currentValue = this.get(currentRowIndex)[currentColIndex];
           if(counter === 1 && currentValue === 1) {
             return true;
           } else {
@@ -204,9 +214,9 @@
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var size = this.get('n');
-      
-      for (var i = 0; i < size; i++) {
-        if(hasMajorDiagonalConflictAt(i)) {
+      debugger;
+      for (var i = (size * -1) + 1; i < size; i++) {
+        if(this.hasMajorDiagonalConflictAt(i)) {
           return true;
         }
       }
@@ -254,11 +264,20 @@
 
       var size = this.get('n');
       var counter = 0;
-      var currentColIndex = minorDiagonalColumnIndexAtFirstRow;
-      var currentRowIndex = 0;
-      var currentPositionValue = this.get(currentRowIndex)[currentColIndex];
+      var currentColIndex;
+      var currentRowIndex;
+      var currentPositionValue;
 
-      while (currentRowIndex < size) {
+      if(minorDiagonalColumnIndexAtFirstRow < 0) {
+        currentRowIndex = minorDiagonalColumnIndexAtFirstRow * -1;
+        currentColIndex = size - 1;
+      } else {
+        currentColIndex = size - minorDiagonalColumnIndexAtFirstRow - 1;
+        currentRowIndex = 0;
+      }
+
+      while (currentRowIndex < size && currentColIndex >= 0) {
+        currentPositionValue = this.get(currentRowIndex)[currentColIndex];
         if (counter === 1 && currentPositionValue === 1) {
           return true;
         } else {
@@ -276,7 +295,7 @@
       var size = this.get('n');
       
       for (var i = 0; i < size; i++) {
-        if(hasMinorDiagonalConflictAt(i)) {
+        if(this.hasMinorDiagonalConflictAt(i)) {
           return true;
         }
       }
