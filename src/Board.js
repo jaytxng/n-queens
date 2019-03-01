@@ -34,7 +34,7 @@
     },
 
     _getFirstRowColumnIndexForMinorDiagonalOn: function(rowIndex, colIndex) {
-      return colIndex + rowIndex;
+      return this.get('n') - 1 - colIndex - rowIndex;
     },
 
     hasAnyRooksConflicts: function() {
@@ -89,10 +89,13 @@
         var count = 0;
   
         for (var i = 0; i < row.length; i++) {
+          if(count === 1 && row[i]=== 1) {
+            return true;
+          }
           count += row[i];
         }
   
-        return count > 1;
+        return false;
     },
 
     // test if any rows on this board contain conflicts
@@ -137,10 +140,13 @@
 
       for (var i = 0; i < size; i++) {
         var row = this.get(i);
+        if(count === 1 && row[colIndex] === 1) {
+          return true;
+        }
         count += row[colIndex];
       }
 
-      return count > 1;
+      return false;
     },
 
     // test if any columns on this board contain conflicts
